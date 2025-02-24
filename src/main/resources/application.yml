@@ -1,0 +1,14 @@
+airbnb:
+  username: ${AIRBNB_USERNAME}
+  password: ${AIRBNB_PASSWORD}
+spring:
+  application:
+    name: PropertyManager
+  datasource:
+    url: jdbc:postgresql://localhost:5432/propertymanager
+    username: ${SQL_USERNAME}
+    password: ${SQL_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
