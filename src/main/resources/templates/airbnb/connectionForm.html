@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title layout:fragment="title">Connect to Airbnb</title>
+</head>
+<body>
+    <main layout:fragment="content">
+        <h1>Connect to Airbnb</h1>
+
+        <div th:if="${errorMsg}" style="color: red;">
+            <p th:text="${errorMsg}"></p>
+        </div>
+
+        <form th:action="@{/airbnb/auth/login}" method="post">
+            <div>
+                <label for="email">Email:</label>
+                <input id="email" name="email" type="text"/>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input id="password" name="password" type="password"/>
+            </div>
+            <div>
+                <button type="submit">Log In</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

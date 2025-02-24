@@ -14,10 +14,8 @@ import org.springframework.web.reactive.function.client.awaitBody
 @Service
 class AirbnbAuthService(
     private val client: WebClient,
-    @Value("\${airbnb.username}") private val username: String,
-    @Value("\${airbnb.password}") private val password: String
 ) {
-    suspend fun performLogin(): String {
+    suspend fun performLogin(email: String, password: String): String {
         val loginPageHtml = client.get()
             .uri("/login")
             .retrieve()
@@ -33,7 +31,7 @@ class AirbnbAuthService(
             "queryParams" to "{\"has_logged_out\":\"1\",\"redirect_params\":\"{}\"}",
             "authenticationParams" to mapOf(
                 "email" to mapOf(
-                    "email" to username,
+                    "email" to email,
                     "password" to password
                 )
             )

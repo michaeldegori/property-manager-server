@@ -3,6 +3,7 @@ plugins {
     kotlin("plugin.spring") version "1.9.25"
     id("org.springframework.boot") version "3.4.2"
     id("io.spring.dependency-management") version "1.1.7"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
     kotlin("plugin.jpa") version "1.9.25"
 }
 
@@ -31,17 +32,22 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.7.3")
     if (System.getProperty("os.name").lowercase().contains("mac") &&
-        System.getProperty("os.arch").lowercase().contains("aarch64")) {
+        System.getProperty("os.arch").lowercase().contains("aarch64")
+    ) {
         runtimeOnly("io.netty:netty-resolver-dns-native-macos:4.1.107.Final:osx-aarch_64")
     } else if (System.getProperty("os.name").lowercase().contains("mac")) {
         runtimeOnly("io.netty:netty-resolver-dns-native-macos:4.1.107.Final:osx-x86_64")
     }
     implementation("io.projectreactor.netty:reactor-netty-http:1.2.3")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.4.0")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
 kotlin {

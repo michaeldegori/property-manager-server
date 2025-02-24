@@ -1,6 +1,3 @@
-airbnb:
-  username: ${AIRBNB_USERNAME}
-  password: ${AIRBNB_PASSWORD}
 spring:
   application:
     name: PropertyManager
@@ -12,3 +9,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false
