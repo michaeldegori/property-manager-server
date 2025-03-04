@@ -2,11 +2,11 @@ package com.app.propertymanager.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.client.reactive.ReactorClientHttpConnector
+import org.springframework.web.reactive.function.client.ClientRequest
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.http.client.HttpClient
-import org.springframework.http.client.reactive.ReactorClientHttpConnector
-import org.springframework.web.reactive.function.client.ClientRequest
 
 @Configuration
 class AirbnbClientConfig {
@@ -22,6 +22,8 @@ class AirbnbClientConfig {
                         cookieStore[name] = value
                     }
                 }
+
+                println("Current Cookie Store: $cookieStore")
             }
 
         return WebClient.builder()
@@ -34,7 +36,9 @@ class AirbnbClientConfig {
             .build()
     }
 
-    fun addCookiesFilter(cookieStore: Map<String, String>): ExchangeFilterFunction {
+    fun getCookies(): Map<String, String> = cookieStore.toMap()
+
+    private fun addCookiesFilter(cookieStore: Map<String, String>): ExchangeFilterFunction {
         return ExchangeFilterFunction { request: ClientRequest, next ->
             val combinedCookieHeader = cookieStore.entries
                 .joinToString("; ") { (k, v) -> "$k=$v" }

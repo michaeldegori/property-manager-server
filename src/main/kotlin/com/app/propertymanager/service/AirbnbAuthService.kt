@@ -1,11 +1,11 @@
 package com.app.propertymanager.service
 
+import com.app.propertymanager.config.AirbnbClientConfig
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
@@ -14,6 +14,7 @@ import org.springframework.web.reactive.function.client.awaitBody
 @Service
 class AirbnbAuthService(
     private val client: WebClient,
+    private val airbnbClientConfig: AirbnbClientConfig
 ) {
     suspend fun performLogin(email: String, password: String): String {
         val loginPageHtml = client.get()
@@ -28,7 +29,6 @@ class AirbnbAuthService(
         val loginRequestBody = mapOf(
             "metadata" to mapOf("sxsMode" to "OFF"),
             "fromWeb" to true,
-            "queryParams" to "{\"has_logged_out\":\"1\",\"redirect_params\":\"{}\"}",
             "authenticationParams" to mapOf(
                 "email" to mapOf(
                     "email" to email,
@@ -52,6 +52,7 @@ class AirbnbAuthService(
             .awaitBody<String>()
 
         println("Login response:\n$response")
+        println("Cookies after login: ${airbnbClientConfig.getCookies()}")
         return response
     }
 
